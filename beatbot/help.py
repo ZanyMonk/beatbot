@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-from settings import PREFIX
+from .settings import PREFIX
 
 
 class Help(commands.MinimalHelpCommand):

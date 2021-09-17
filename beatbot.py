@@ -10,10 +10,10 @@ import random
 import discord
 from discord.ext import commands
 
-import settings
-from help import Help
+import beatbot.settings
+from beatbot.help import Help
 
-bot = commands.Bot(command_prefix=settings.PREFIX,
+bot = commands.Bot(command_prefix=beatbot.settings.PREFIX,
                    allowed_mentions=discord.AllowedMentions(everyone=False, users=False, roles=False),
                    description="**__BiteBotte__ - Bot de stream musical**")
 
@@ -69,7 +69,7 @@ async def on_command_error(ctx, error):
 @bot.command()
 async def request(ctx, feature):
     # Bot sends a dm to creator with the name of the user and their request.
-    creator = await bot.fetch_user(settings.OWNER)
+    creator = await bot.fetch_user(beatbot.settings.OWNER)
     authors_name = str(ctx.author)
     await creator.send(f''':pencil: {authors_name}: {feature}''')
     await ctx.send(f''':pencil: Thanks, "{feature}" has been requested!''')
@@ -78,7 +78,7 @@ async def request(ctx, feature):
 @bot.command()
 async def report(ctx, error_report):
     # Bot sends a dm to creator with the name of the user and their report.
-    creator = await bot.fetch_user(settings.OWNER)
+    creator = await bot.fetch_user(beatbot.settings.OWNER)
     authors_name = str(ctx.author)
     await creator.send(f''':triangular_flag_on_post: {authors_name}: {error_report}''')
     await ctx.send(f''':triangular_flag_on_post: Thanks for the help, "{error_report}" has been reported!''')
@@ -103,11 +103,11 @@ async def on_message(message):
 bot.help_command = Help()
 
 if __name__ == '__main__':
-    sys.path.insert(1, os.getcwd() + '/cogs/')
+    sys.path.insert(1, beatbot.settings.os.getcwd() + '/beatbot/cogs/')
 
     for extension in extensions:
         try:
             bot.load_extension(extension)
         except Exception as e:
             print(f'Failed to load cogs : {e}')
-    bot.run(settings.TOKEN)
+    bot.run(beatbot.settings.TOKEN)
